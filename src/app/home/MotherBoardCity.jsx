@@ -27,7 +27,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <><Blog/>
+    <>
     <Canvas style={{'height':'100vh', 'width':'100vw'}}  camera={{ position: [0, 0, 30], near: 0.05, far: 1000, fov: 10 }} >
       {/* <OrbitControls /> */}
 
