@@ -8,6 +8,7 @@ import { MotherBoard } from '../components/Motherboard'
 import { MeshStandardMaterial } from 'three'
 import ExploreCamera from './ExploreCamera'
 import BeforeMotherBoard from './BeforeMotherBoard'
+import Blog from './Blog'
 
 const page = () => {
 
