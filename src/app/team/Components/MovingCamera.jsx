@@ -57,6 +57,9 @@ function MovingCamera({
       if (isMobile) {
         if (touched) {
           frontVector.set(0, 0, -1);
+        } 
+        if(!touched) {
+          frontVector.set(0, 0, 0);
         }
       } else {
         frontVector.set(0, 0, backward - forward);
