@@ -27,7 +27,7 @@ import DomainLabels from "./Components/DomainLabel.jsx";
 import DomainPortals from "./Components/DomainPortals.jsx";
 
 // import BlendFunction from "postprocessing";
-import {useMLSCStore} from "../store/MLSCStore";
+import { useMLSCStore } from "../store/MLSCStore";
 
 import Fillers from "./Components/Fillers.jsx";
 import Portal from "./Components/Portal.jsx";
@@ -36,15 +36,14 @@ import MovingCamera from "./Components/MovingCamera.jsx";
 import CustomLoader from "../components/CustomLoader.jsx";
 import Sidebar from "../home/overlay-ui/Sidebar.jsx";
 import PlaySoundButton from "../components-3d/PlaySoundButton.jsx";
-import { WASDMotion } from "../components/UserDirections.jsx";
+import { MoveDevice, WASDMotion } from "../components/UserDirections.jsx";
 
 function page() {
-
-
   // const teleporting = useMLSCStore((s) => s.teleporting);
   // const setTeleporting = useMLSCStore((s) => s.setTeleporting);
   const playBGM = useMLSCStore((s) => s.playBGM);
   const [isMobile, setIsMobile] = useState(false);
+  const [touched, setTouched] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -60,7 +59,11 @@ function page() {
   });
 
   return (
-    <div className="w-screen h-screen bg-transparent overflow-hidden">
+    <div
+      onTouchStart={() => setTouched(true)}
+      onTouchEnd={() => setTouched(false)}
+      className="w-screen h-screen bg-transparent overflow-hidden"
+    >
       {/* <div onClick={setTeleporting(!teleporting)} className="absolute w-32 h-32 bg-slate-600 rounded-md right-5 bottom-5"></div> */}
       <KeyboardControls
         map={[
@@ -74,7 +77,7 @@ function page() {
         <Canvas
           style={{ height: "100%", width: "100%" }}
           shadows="basic"
-          camera={{ fov: 70, near: 0.1, far: 1000, }}
+          camera={{ fov: 70, near: 0.1, far: 1000 }}
           // position: [0, 0, 15]}}
           performance={{ current: 1, min: 0.1, max: 1, debounce: 200 }}
           frameloop="demand"
@@ -92,10 +95,18 @@ function page() {
           {/* <Suspense >
             <Portal />
           </Suspense> */}
-          {isMobile?<DeviceOrientationControls />:<PointerLockControls />}
+          {isMobile ? <DeviceOrientationControls /> : <PointerLockControls />}
           <Suspense>
-            <Physics gravity={[0, -10, 0]} >
-              <MovingCamera position={[0, 2, 10]} teleporting={teleporting} setTeleporting={setTeleporting} inPortal={inPortal} setInPortal={setInPortal} />
+            <Physics gravity={[0, -10, 0]}>
+              <MovingCamera
+                position={[0, 2, 10]}
+                teleporting={teleporting}
+                setTeleporting={setTeleporting}
+                inPortal={inPortal}
+                setInPortal={setInPortal}
+                touched={touched}
+                isMobile={isMobile}
+              />
 
               <RigidBody
                 type="fixed"
@@ -115,15 +126,21 @@ function page() {
           <Effects inPortal={inPortal} />
 
           {playBGM ? (
-          <Suspense>
-              <PositionalAudio position={[0, 0, 0]} autoplay loop url='/audio/team-path-bgm.mp3' distance={5} />
-          </Suspense>
-        ) : undefined}
+            <Suspense>
+              <PositionalAudio
+                position={[0, 0, 0]}
+                autoplay
+                loop
+                url="/audio/team-path-bgm.mp3"
+                distance={5}
+              />
+            </Suspense>
+          ) : undefined}
         </Canvas>
       </KeyboardControls>
-      <CustomLoader urlIndex={0}/>
+      <CustomLoader urlIndex={0} />
       <PlaySoundButton />
-      <WASDMotion />
+      {isMobile ? <MoveDevice /> : <WASDMotion />}
       <Sidebar />
     </div>
   );
