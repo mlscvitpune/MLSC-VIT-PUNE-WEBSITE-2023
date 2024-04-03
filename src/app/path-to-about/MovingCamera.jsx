@@ -1,8 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, Suspense } from "react";
 import { DeviceOrientationControls, PointerLockControls, useKeyboardControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import { Suspense } from "react";
 import { degToRad, radToDeg } from "three/src/math/MathUtils";
 
 import * as THREE from "three";

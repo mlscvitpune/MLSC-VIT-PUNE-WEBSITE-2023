@@ -16,7 +16,7 @@ import {
   DeviceOrientationControls,
 } from "@react-three/drei";
 import { Canvas, extend } from "@react-three/fiber";
-import React, { Suspense, useRef, useMemo, useState } from "react";
+import React, { Suspense, useRef, useMemo, useState, useEffect } from "react";
 import { Physics, RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
 
