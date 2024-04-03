@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { PointerLockControls, useKeyboardControls } from "@react-three/drei";
+import { DeviceOrientationControls, PointerLockControls, useKeyboardControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { Suspense } from "react";
@@ -20,6 +20,13 @@ const direction = new THREE.Vector3();
 // const rotation = new THREE.Vector3();
 
 function MovingCamera({ position, setsYear }) {
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   const controls = useRef();
   console.log(controls);
   const [_, get] = useKeyboardControls();
@@ -116,7 +123,7 @@ function MovingCamera({ position, setsYear }) {
       {/* <Suspense>
         {teleporting && <TeleportAnim position={portalPos} />}
       </Suspense> */}
-      {!showYearCard && <PointerLockControls />}
+      {!showYearCard ? isMobile ? <DeviceOrientationControls /> : <PointerLockControls /> : undefined}
       
       <YearCard show={showYearCard} />
       <DoorPointingArrow position={[-16.2, 2, -18]} rotation={[0, degToRad(40), 0]} />

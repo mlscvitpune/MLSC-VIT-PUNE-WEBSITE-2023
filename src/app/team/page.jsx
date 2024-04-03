@@ -13,6 +13,7 @@ import {
   PerspectiveCamera,
   PointerLockControls,
   PositionalAudio,
+  DeviceOrientationControls,
 } from "@react-three/drei";
 import { Canvas, extend } from "@react-three/fiber";
 import React, { Suspense, useRef, useMemo, useState } from "react";
@@ -38,13 +39,16 @@ import PlaySoundButton from "../components-3d/PlaySoundButton.jsx";
 import { WASDMotion } from "../components/UserDirections.jsx";
 
 function page() {
-  const sun = useRef(); 
+
 
   // const teleporting = useMLSCStore((s) => s.teleporting);
   // const setTeleporting = useMLSCStore((s) => s.setTeleporting);
   const playBGM = useMLSCStore((s) => s.playBGM);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // setTeleporting(false)
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const [teleporting, setTeleporting] = useState(false);
   const [inPortal, setInPortal] = useState(false);
@@ -88,7 +92,7 @@ function page() {
           {/* <Suspense >
             <Portal />
           </Suspense> */}
-          <PointerLockControls />
+          {isMobile?<DeviceOrientationControls />:<PointerLockControls />}
           <Suspense>
             <Physics gravity={[0, -10, 0]} >
               <MovingCamera position={[0, 2, 10]} teleporting={teleporting} setTeleporting={setTeleporting} inPortal={inPortal} setInPortal={setInPortal} />
