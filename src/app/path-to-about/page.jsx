@@ -22,7 +22,7 @@ import Fillers from "./Fillers";
 import * as THREE from "three";
 import { degToRad } from "three/src/math/MathUtils";
 import { Physics, RigidBody } from "@react-three/rapier";
-import { Suspense, useState, useRef } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import MovingCamera from "./MovingCamera";
 
 import { useMLSCStore } from "../store/MLSCStore";
