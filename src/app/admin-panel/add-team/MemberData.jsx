@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { CldImage } from "next-cloudinary";
 import cn from "../../utils/cn";
 
 export default function MemberData({ member, className, setClickCount, clickCount }) {
@@ -140,12 +141,12 @@ const ReadOnlyData = ({ member }) => {
             {member.xLink}
           </div>
         </div>
-        <div className="flex flex-row w-full h-10 justify-around gap-3">
+        <div className="flex flex-row w-full h-20 justify-around gap-3">
           <div className="flex items-center justify-center w-[30%] h-full rounded-[5px] bg-[#282828] text-sm text-ellipsis truncate">
             ImageURL:
           </div>
           <div className="flex items-center justify-center w-[70%] h-full rounded-[5px] bg-[#282828] text-sm text-ellipsis truncate">
-            {member.imageLink}
+            <CldImage src={`mlsc-team-profile-pics/${member.imageLink}`} width='80' height='80' crop='fit' />
           </div>
         </div>
         <div className="flex flex-row w-full h-10 justify-around gap-3">
@@ -313,7 +314,7 @@ const UpdateData = ({ member }) => {
         </div>
         <div className="flex flex-row w-full h-10 justify-around gap-3">
           <div className="flex items-center justify-center w-[30%] h-full rounded-[5px] bg-[#282828] text-sm text-ellipsis truncate">
-            ImageURL:
+            Image Filename:
           </div>
           <input onChange={handleUpdateChange} name="photoURL" type="text" defaultValue={member.imageLink} className="flex items-cente px-2r justify-center w-[70%] h-full rounded-[5px] bg-[#282828] text-sm truncate text-ellipsis" />
 
