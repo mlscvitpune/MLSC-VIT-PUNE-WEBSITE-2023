@@ -11,11 +11,17 @@ function EventCard({ text, position, scale, rotation, eventData, index }) {
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    console.log("Hovered: ", hovered);
+    // console.log("Hovered: ", hovered);
   }, [hovered]);
 
-  const date = eventData?.date !== "No Data" ?new Date(eventData?.date):"No Data";
-  console.log("DATE: ", date)
+  const date =
+    eventData?.date !== "No Data" ? new Date(eventData?.date) : "No Data";
+  // console.log("DATE: ", date)
+
+  const description =
+    eventData?.description !== "No Data" && eventData
+      ? JSON.parse(eventData?.description)
+      : "No Data";
 
   return (
     // <Text position={position} rotation={rotation} >
@@ -37,40 +43,61 @@ function EventCard({ text, position, scale, rotation, eventData, index }) {
           <div className="flex flex-row items-end justify-end w-full h-[18%] text-sm mt-1.5">
             {index}
           </div>
-          <div onPointerEnter={()=>setHovered(true)} onPointerLeave={()=>setHovered(false)} className="flex items-center justify-center ml-[2rem] text-sm w-[80%] h-[80%] bg-slate-500">
-            {hovered?<span>{eventData?.description}</span>:<span>Image</span>}
+          <div
+            onPointerEnter={() => setHovered(true)}
+            onPointerLeave={() => setHovered(false)}
+            className="flex items-center justify-center ml-[2rem] text-sm w-[80%] h-[80%] bg-slate-500"
+          >
+            {description !== "No Data" ? (
+              hovered ? (
+                <p className="text-[0.5rem] leading-snug text-pretty text-clip">
+                  {description["text"]}
+                </p>
+              ) : (
+                <img
+                  className="object-cover object-center opacity-85"
+                  src={description["imageLink"]}
+                />
+              )
+            ) : (
+              <span>No Data</span>
+            )}
           </div>
         </div>
 
         <div className="flex flex-col items-center justify-end w-2/5 h-[95%] p-1 mt-[0.3px]">
-          <div className="w-[98%] h-[30%] text-sm">
-            {eventData?.name}
-          </div>
+          <div className="w-[98%] h-[30%] text-sm">{eventData?.name}</div>
           <div className="flex flex-col items-start justify-evenly w-[98%] h-[60%] ">
-
             <div className="w-full h-[40%] flex flex-col">
-              <a href={eventData?.link} className="w-full h-1/2 text-xs text-blue-500">Link</a>
-              <div className="w-full h-1/2 text-[0.5rem]">footfall: {eventData?.footfall}</div>
+              <a
+                href={eventData?.link}
+                className="w-full h-1/2 text-xs text-blue-500"
+              >
+                Link
+              </a>
+              <div className="w-full h-1/2 text-[0.5rem]">
+                footfall: {eventData?.footfall}
+              </div>
             </div>
 
             <div className="flex flex-row w-full h-[35%] items-center justify-start gap-2 ">
-
-             {date!=='No Data' && <div className="flex flex-col w-[40%] h-full ">
-                <div className="w-full text-[0.5rem]">Date</div>
-                <div className="text-center flex items-center justify-center w-full p-[3px] bg-[#f0f0f0] text-[#0f0f0f] text-[0.5rem] rounded-[4px]">
-                  <span>{date?.getDate()}-{date?.getMonth()}-{date?.getFullYear()}</span>
+              {date !== "No Data" && date && (
+                <div className="flex flex-col w-[40%] h-full ">
+                  <div className="w-full text-[0.5rem]">Date</div>
+                  <div className="text-center flex items-center justify-center w-full p-[3px] bg-[#f0f0f0] text-[#0f0f0f] text-[0.5rem] rounded-[4px]">
+                    <span>
+                      {date?.getDate()}-{date?.getMonth()}-{date?.getFullYear()}
+                    </span>
+                  </div>
                 </div>
-              </div>}
+              )}
               <div className="w-[40%] h-full ">
                 <div className="w-full  text-[0.5rem]">Span</div>
                 <div className="text-center flex items-center justify-center w-[95%] p-[3px] bg-[#f0f0f0] text-[#0f0f0f] text-[0.5rem] rounded-[4px]">
                   <span>{eventData?.eventSpan} Days</span>
                 </div>
               </div>
-             
-
             </div>
-            
           </div>
         </div>
       </div>
@@ -95,8 +122,7 @@ export function EventCards({ position, scale }) {
     name: "No Data",
     tagline: "No Data",
     date: "No Data",
-    description:
-      "No Data",
+    description: "No Data",
     footfall: "No Data",
     eventSpan: "No Data",
     link: "",
@@ -115,88 +141,104 @@ export function EventCards({ position, scale }) {
           -4,
           20 * Math.sin(degToRad(60)),
         ]}
-        eventData={eventData && eventData.length > 1 ? eventData[1] : nonLoadData}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[1] : nonLoadData
+        }
         scale={scale}
         rotation={[0, degToRad(30 + 180), 0]}
-        index='02'
+        index="02"
       />
-        <EventCard
-          position={[
-            20 * Math.cos(degToRad(30)),
-            -4,
-            20 * Math.sin(degToRad(30)),
-          ]}
-          eventData={eventData && eventData.length > 0 ? eventData[0] : nonLoadData}
-          scale={scale}
-          rotation={[0, degToRad(60 + 180), 0]}
-          index='01'
-        />
+      <EventCard
+        position={[
+          20 * Math.cos(degToRad(30)),
+          -4,
+          20 * Math.sin(degToRad(30)),
+        ]}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[0] : nonLoadData
+        }
+        scale={scale}
+        rotation={[0, degToRad(60 + 180), 0]}
+        index="01"
+      />
       <EventCard
         position={[
           20 * Math.cos(degToRad(150)),
           -4,
           20 * Math.sin(degToRad(150)),
         ]}
-        eventData={eventData && eventData.length > 3 ? eventData[3] : nonLoadData}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[5] : nonLoadData
+        }
         scale={scale}
         rotation={[0, degToRad(-60 + 180), 0]}
-        index='04'
+        index="04"
       />
-        <EventCard
-          position={[
-            20 * Math.cos(degToRad(120)),
-            -4,
-            20 * Math.sin(degToRad(120)),
-          ]}
-          eventData={eventData && eventData.length > 2 ? eventData[2] : nonLoadData}
-          scale={scale}
-          rotation={[0, degToRad(-30 + 180), 0]}
-          index='03'
-        />
+      <EventCard
+        position={[
+          20 * Math.cos(degToRad(120)),
+          -4,
+          20 * Math.sin(degToRad(120)),
+        ]}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[2] : nonLoadData
+        }
+        scale={scale}
+        rotation={[0, degToRad(-30 + 180), 0]}
+        index="03"
+      />
       <EventCard
         position={[
           20 * Math.cos(degToRad(240)),
           -4,
           20 * Math.sin(degToRad(240)),
         ]}
-        eventData={eventData && eventData.length > 5 ? eventData[5] : nonLoadData}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[6] : nonLoadData
+        }
         scale={scale}
         rotation={[0, degToRad(30), 0]}
-        index='06'
+        index="06"
       />
-        <EventCard
-          position={[
-            20 * Math.cos(degToRad(210)),
-            -4,
-            20 * Math.sin(degToRad(210)),
-          ]}
-          eventData={eventData && eventData.length > 4 ? eventData[4] : nonLoadData}
-          scale={scale}
-          rotation={[0, degToRad(60), 0]}
-          index='05'
-        />
+      <EventCard
+        position={[
+          20 * Math.cos(degToRad(210)),
+          -4,
+          20 * Math.sin(degToRad(210)),
+        ]}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[3] : nonLoadData
+        }
+        scale={scale}
+        rotation={[0, degToRad(60), 0]}
+        index="05"
+      />
       <EventCard
         position={[
           20 * Math.cos(degToRad(330)),
           -4,
           20 * Math.sin(degToRad(330)),
         ]}
-        eventData={eventData && eventData.length > 7 ? eventData[7] : nonLoadData}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[7] : nonLoadData
+        }
         scale={scale}
         rotation={[0, degToRad(-60), 0]}
-        index='08'
+        index="08"
       />
-        <EventCard
-          position={[
-            20 * Math.cos(degToRad(300)),
-            -4,
-            20 * Math.sin(degToRad(300)),
-          ]}
-          eventData={eventData && eventData.length > 6 ? eventData[6] : nonLoadData}
-          scale={scale}
-          rotation={[0, degToRad(-30), 0]}
-          index='07'
-        />
+      <EventCard
+        position={[
+          20 * Math.cos(degToRad(300)),
+          -4,
+          20 * Math.sin(degToRad(300)),
+        ]}
+        eventData={
+          eventData && eventData.length > 0 ? eventData[4] : nonLoadData
+        }
+        scale={scale}
+        rotation={[0, degToRad(-30), 0]}
+        index="07"
+      />
     </group>
   );
 }

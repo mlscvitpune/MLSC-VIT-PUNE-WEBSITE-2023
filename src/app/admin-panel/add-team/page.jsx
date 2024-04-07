@@ -8,6 +8,8 @@ import { useRef } from 'react';
 
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
+import { CldUploadButton, CldImage } from 'next-cloudinary';
+
 import Button from "../components/Button";
 import Searchbox from "../components/Searchbox";
 import Sidepanel from "../components/Sidepanel";
@@ -135,7 +137,7 @@ function AddTeamMember() {
           </div>
 
           <div className="flex flex-row w-[70%] h-full items-center text-[#0078D4] text-2xl font-light ml-32">
-            Team Members
+            Hi, {userSession?.user.name}
           </div>
         </div>
         <div className="flex flex-row justify-between w-full h-[75%] rounded-b-[40px]  rounded-[40px] rounded-tr-[0px]">
@@ -249,48 +251,17 @@ function AddTeamMember() {
                 type="text"
               /> */}
 
-              <div className="flex flex-row items-center justify-start p-1 gap-1 w-1/2 ">
-                <form className="flex flex-row justify-around gap-2" onSubmit={async (event) => {
-                  event.preventDefault();
-
-                  if (!inputFileRef.current?.files) {
-                    throw new Error('No file selected');
-                  }
-
-                  const file = inputFileRef.current.files[0];
-                  if (file.size > 500 * 1024) {
-                    alert('File size should be less than 0.5MB');
-                    return;
-                  }
-                  // const response = await fetch(
-                  //   `/api/photo/upload?filename=${file.name}`,
-                  //   {
-                  //     method: 'POST',
-                  //     body: file,
-                  //   },
-                  // );
-
-                  const {data: newBlob } = await axios.post(`/api/photo/upload?filename=${file.name}`, file, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
-                  });
-
-                  // const newBlob = (await response.json());
-                  if (newBlob.error) {
-                    alert("Error uploading images");
-                    return;
-                  }
-                  setBlob(newBlob);
-                  setImageUrl(newBlob.url);
-                  alert(`Image uploaded successfully to ${newBlob.url}`);
-                  console.log(newBlob);
-                }}>
-                  <input name="file" 
+              <div className="flex flex-row items-center justify-start p-1 gap-3 w-1/2 ">
+                 
+                  {/* <input name="file" 
                   className="w-3/5 text-xs flex items-center justify-center h-full p-1 text-[#f0f0f0] border border-gray-300 rounded-lg cursor-pointer bg-[#373737]  "
-                  ref={inputFileRef} type="file" required />
-                  <button className="bg-[#505050] text-xs p-2 rounded-[7px] hover:bg-slate-400 active:bg-green-400" type="submit">Upload Photo</button>
-                </form>
+                  ref={inputFileRef} type="file" required /> */}
+                  <CldUploadButton uploadPreset="mlsc-team-preset" options={{sources:['local', 'camera'], multiple:false}}  className="bg-[#505050] text-xs p-2 rounded-[7px] hover:bg-slate-400 active:bg-green-400" />
+                  <CldImage src={`mlsc-team-profile-pics/${userSession?.user.name.split(' ')[0].toLowerCase()}-${userSession?.user.name.split(' ')[1].toLowerCase()}`} width='50' height='50' />
+                  <p className="h-full text-wrap text-yellow-400 text-xs">
+                    Filename of the image should match with your full name, separated by a hiphen '-'
+                  </p>
+           
               </div>
                 <div className="w-1/2">
               <Textbox
