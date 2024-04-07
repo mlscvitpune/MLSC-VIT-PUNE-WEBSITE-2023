@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-
-import { useRef } from 'react';
+import { useRef } from "react";
 
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+
+import { CldUploadButton, CldImage } from "next-cloudinary";
 
 import Button from "../components/Button";
 import Searchbox from "../components/Searchbox";
@@ -19,7 +20,6 @@ import { useServerSession } from "./hooks";
 //TODO: api/jobs/<teams | events | projects | teams | blogs , cache refresing
 
 function AddTeamMember() {
-
   // const {data: session} = useSession();
   // const userSession = useSession();
 
@@ -31,7 +31,7 @@ function AddTeamMember() {
       const session = await useServerSession();
       setUserSession(session);
       console.log(session);
-    }
+    };
     getSession();
   }, []);
 
@@ -43,7 +43,7 @@ function AddTeamMember() {
     position: "",
     photoURL: "",
     modelURL: "",
-    mail: '' ,
+    mail: "",
     githubID: "",
     twitterID: "",
     linkedinID: "",
@@ -77,7 +77,7 @@ function AddTeamMember() {
   // console.log(memberData);
   useEffect(() => {
     getTeamData();
-    
+
     // setMemberData(teamData.data.data);
     // console.log(memberData)
   }, []);
@@ -98,12 +98,12 @@ function AddTeamMember() {
           linkedinLink: formData.linkedinID,
           githubLink: formData.githubID,
           aboutMe: formData.department,
-          imageLink: imageUrl,
+          imageLink: formData.photoURL,
           modelLink: formData.modelURL,
         };
         const { data, status } = await axios.post(`/api/team`, body);
 
-        if(status === 200) alert("Data added successfully!");
+        if (status === 200) alert("Data added successfully!");
 
         console.log("DATA AND STATUS");
         console.log(data, status);
@@ -134,8 +134,20 @@ function AddTeamMember() {
             />
           </div>
 
-          <div className="flex flex-row w-[70%] h-full items-center text-[#0078D4] text-2xl font-light ml-32">
-            Team Members
+          <div className="flex flex-row w-[70%] h-full items-center text-[#0078D4] text-2xl gap-3 font-light ml-32">
+            <span>Hi, {userSession?.user.name}</span>
+            {formData.photoURL ? (
+              <CldImage
+                className="rounded-lg"
+                src={`mlsc-team-profile-pics/${formData.photoURL}`}
+                width="80"
+                height="80"
+              />
+            ) : (
+              <span className="text-xs text-wrap w-44 h-24 bg-slate-500 rounded-lg p-2 text-[#f0f0f0]">
+                Filename of the photo you upload should be your lowercased full name separated by a dash <span className="text-yellow-300">'-'</span>. eg. "soham-panchal" 
+              </span>
+            )}
           </div>
         </div>
         <div className="flex flex-row justify-between w-full h-[75%] rounded-b-[40px]  rounded-[40px] rounded-tr-[0px]">
@@ -226,12 +238,14 @@ function AddTeamMember() {
 
             <div className="flex flex-row justify-evenly gap-4 w-full">
               {/*{!userSession && !userSession.user.email &&  */}
-              {!userSession?.user.email && <Textboxico
-                name="mail"
-                onChange={handleChange}
-                label="MailID (GitHub)"
-                icons="/icons/mail-form.svg"
-              />}
+              {!userSession?.user.email && (
+                <Textboxico
+                  name="mail"
+                  onChange={handleChange}
+                  label="MailID (GitHub)"
+                  icons="/icons/mail-form.svg"
+                />
+              )}
               {/*}*/}
               <Textboxico
                 name="twitterID"
@@ -249,56 +263,29 @@ function AddTeamMember() {
                 type="text"
               /> */}
 
-              <div className="flex flex-row items-center justify-start p-1 gap-1 w-1/2 ">
-                <form className="flex flex-row justify-around gap-2" onSubmit={async (event) => {
-                  event.preventDefault();
-
-                  if (!inputFileRef.current?.files) {
-                    throw new Error('No file selected');
-                  }
-
-                  const file = inputFileRef.current.files[0];
-                  if (file.size > 500 * 1024) {
-                    alert('File size should be less than 0.5MB');
-                    return;
-                  }
-                  // const response = await fetch(
-                  //   `/api/photo/upload?filename=${file.name}`,
-                  //   {
-                  //     method: 'POST',
-                  //     body: file,
-                  //   },
-                  // );
-
-                  const {data: newBlob } = await axios.post(`/api/photo/upload?filename=${file.name}`, file, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
-                  });
-
-                  // const newBlob = (await response.json());
-                  if (newBlob.error) {
-                    alert("Error uploading images");
-                    return;
-                  }
-                  setBlob(newBlob);
-                  setImageUrl(newBlob.url);
-                  alert(`Image uploaded successfully to ${newBlob.url}`);
-                  console.log(newBlob);
-                }}>
-                  <input name="file" 
+              <div className="flex flex-row items-center justify-start p-1 gap-3 w-1/2 ">
+                {/* <input name="file" 
                   className="w-3/5 text-xs flex items-center justify-center h-full p-1 text-[#f0f0f0] border border-gray-300 rounded-lg cursor-pointer bg-[#373737]  "
-                  ref={inputFileRef} type="file" required />
-                  <button className="bg-[#505050] text-xs p-2 rounded-[7px] hover:bg-slate-400 active:bg-green-400" type="submit">Upload Photo</button>
-                </form>
+                  ref={inputFileRef} type="file" required /> */}
+                <CldUploadButton
+                  uploadPreset="mlsc-team-preset"
+                  options={{ sources: ["local", "camera"], multiple: false }}
+                  className="bg-[#a54cc3] text-xs p-2 rounded-[7px] hover:bg-slate-400 active:bg-green-400"
+                >Upload Image</CldUploadButton>
+                <Textbox
+                  name="photoURL"
+                  onChange={handleChange}
+                  label="Image filename"
+                  type="text"
+                />
               </div>
-                <div className="w-1/2">
-              <Textbox
-                name="modelURL"
-                onChange={handleChange}
-                label="Action Figure"
-                type="text"
-              />
+              <div className="w-1/2">
+                <Textbox
+                  name="modelURL"
+                  onChange={handleChange}
+                  label="Action Figure"
+                  type="text"
+                />
               </div>
             </div>
             <Button label="Submit" onClick={handleSubmit} />
@@ -316,18 +303,18 @@ function AddTeamMember() {
           {/* Domains */}
           {/* {console.log(seeDomains)} */}
           <div className="w-full h-[88%]">
-          {seeDomains ? (
-            <Domainoutput
-              setSeeDomains={setSeeDomains}
-              setWhichDomain={setWhichDomain}
-            />
-          ) : (
-            <WhichDomain
-              teamData={memberData}
-              whichDomain={whichDomain}
-              setWhichDomain={setWhichDomain}
-            />
-          )}
+            {seeDomains ? (
+              <Domainoutput
+                setSeeDomains={setSeeDomains}
+                setWhichDomain={setWhichDomain}
+              />
+            ) : (
+              <WhichDomain
+                teamData={memberData}
+                whichDomain={whichDomain}
+                setWhichDomain={setWhichDomain}
+              />
+            )}
           </div>
 
           <div className="flex flex-row items-center gap-5 relative h-8 w-20">

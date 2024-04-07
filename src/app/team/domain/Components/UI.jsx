@@ -2,6 +2,8 @@ import { Html } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import Image from "next/image";
 import Link from "next/link";
+import { CldImage } from 'next-cloudinary'
+
 import { useMLSCStore } from "../../../store/MLSCStore";
 import cn from "../../../utils/cn";
 
@@ -25,11 +27,12 @@ export function Position({ data, onClick, scale, position }) {
       <div className={cn(sideBarOpen?"w-0 h-0 opacity-0 pointer-events-none":"-z-50 top-60 left-60 w-[80rem] h-[48rem]  bg-[url('/images/svgs/year-dept.svg')] bg-cover bg-center cursor-pointer")}>
         <div onClick={onClick} className="absolute flex items-center justify-center left-[30rem] top-[16rem]  w-48 h-[15.5rem]">
           {data?.imageLink && (
-            <img
-              
-              className="opacity-55 rounded-[18px] object-center object-crop hover:brightness-150 ease-in-out duration-100"
-              src={data?.imageLink}
+            <CldImage
+              height={250}
               width={200}
+              className="opacity-55 rounded-[18px] bg-slate-400 object-center object-crop hover:brightness-150 ease-in-out duration-100"
+              src={`mlsc-team-profile-pics/${data?.imageLink}`}
+             
               alt="picture"
             />
           )}
