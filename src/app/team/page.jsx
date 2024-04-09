@@ -36,14 +36,21 @@ import MovingCamera from "./Components/MovingCamera.jsx";
 import CustomLoader from "../components/CustomLoader.jsx";
 import Sidebar from "../home/overlay-ui/Sidebar.jsx";
 import PlaySoundButton from "../components-3d/PlaySoundButton.jsx";
-import { MoveDevice, WASDMotion } from "../components/UserDirections.jsx";
+import { MoveDevice, WASDMotion, MobileControls } from "../components/UserDirections.jsx";
+
 
 function page() {
   // const teleporting = useMLSCStore((s) => s.teleporting);
   // const setTeleporting = useMLSCStore((s) => s.setTeleporting);
   const playBGM = useMLSCStore((s) => s.playBGM);
   const [isMobile, setIsMobile] = useState(false);
-  const [touched, setTouched] = useState(false);
+  const [touched, setTouched] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
+ 
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -60,8 +67,6 @@ function page() {
 
   return (
     <div
-      onTouchStart={() => setTouched(true)}
-      onTouchEnd={() => setTouched(false)}
       className="w-screen h-screen bg-transparent overflow-hidden"
     >
       {/* <div onClick={setTeleporting(!teleporting)} className="absolute w-32 h-32 bg-slate-600 rounded-md right-5 bottom-5"></div> */}
@@ -140,7 +145,8 @@ function page() {
       </KeyboardControls>
       <CustomLoader urlIndex={0} />
       <PlaySoundButton />
-      {isMobile ? <MoveDevice /> : <WASDMotion />}
+      {isMobile && <MobileControls setTouched={setTouched} touched={touched} />}
+      {isMobile ? <MoveDevice  /> : <WASDMotion />}
       <Sidebar />
     </div>
   );

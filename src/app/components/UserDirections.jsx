@@ -1,4 +1,5 @@
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
+import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowAltCircleUp } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import cn from "../utils/cn";
 import './styles.css';
@@ -135,6 +136,21 @@ export function MoveDevicePassThrough() {
              </div>
             </div>
         </div>
+        </div>
+    )
+}
+
+export  function MobileControls({setTouched, touched}) {
+    return (
+        <div className="flex flex-col items-center text-[#1f2f4a] justify-between h-36 w-36 absolute right-6 bottom-6 rounded-lg bg-[#0c15336a] text-[2.5rem]">
+           <div className="w-full flex items-center justify-center h-[28%]"><FaArrowAltCircleUp onTouchStart={() => setTouched({...touched, up: true })} onTouchEnd={() => setTouched({...touched, up: false})} /></div>
+           <div className="w-full h-[28%] flex flex-row items-center justify-between">
+                <FaArrowAltCircleLeft onTouchStart={() => setTouched({...touched, left: true})} onTouchEnd={() => setTouched({touched, left:false})} />
+                <FaArrowAltCircleRight onTouchStart={() => setTouched({...touched, right:true})} onTouchEnd={() => setTouched({...touched, right:false})} />
+           </div>
+           <div className="w-full text-center flex items-center justify-center h-[28%]">
+                <FaArrowAltCircleDown onTouchStart={() => setTouched({...touched, down: true})} onTouchEnd={() => setTouched({...touched, down: false})} />
+           </div>
         </div>
     )
 }

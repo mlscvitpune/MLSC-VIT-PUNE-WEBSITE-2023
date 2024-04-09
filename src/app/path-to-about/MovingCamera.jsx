@@ -53,11 +53,29 @@ function MovingCamera({ position, isMobile, touched }) {
       // console.log(controls);
       // console.log(velocity);
       if (isMobile) {
-        if (touched) {
+        if (touched.up) {
           frontVector.set(0, 0, -1);
         } 
-        if(!touched) {
+        if(!touched.up) {
           frontVector.set(0, 0, 0);
+        }
+        if (touched.down) {
+          frontVector.set(0, 0, 1);
+        }
+        if (!touched.down) {
+          frontVector.set(0, 0, 0);
+        }
+        if(touched.left) {
+          sideVector.set(1, 0, 0);
+        }
+        if(!touched.left) {
+          sideVector.set(0, 0, 0);
+        } 
+        if(touched.right) {
+          sideVector.set(-1, 0, 0);
+        }
+        if(!touched.right) {
+          sideVector.set(0, 0, 0);
         }
       } else {
         frontVector.set(0, 0, backward - forward);

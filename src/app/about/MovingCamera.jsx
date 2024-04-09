@@ -16,7 +16,7 @@ const sideVector = new THREE.Vector3();
 const direction = new THREE.Vector3();
 // const rotation = new THREE.Vector3();
 
-function MovingCamera({ position, isMobile, touched }) {
+function MovingCamera({ position, isMobile, touched}) {
   const controls = useRef();
   console.log(controls);
   const [_, get] = useKeyboardControls();
@@ -46,11 +46,29 @@ function MovingCamera({ position, isMobile, touched }) {
       // console.log(velocity);
 
       if(isMobile){
-        if(touched){
+        if (touched.up) {
           frontVector.set(0, 0, -1);
-        }
-        if(!touched){
+        } 
+        if(!touched.up){
           frontVector.set(0, 0, 0);
+        }
+        if (touched.down) {
+          frontVector.set(0, 0, 1);
+        }
+        if (!touched.down) {
+          frontVector.set(0, 0, 0);
+        }
+        if(touched.left) {
+          sideVector.set(1, 0, 0);
+        } 
+        if(!touched.left) {
+          sideVector.set(0, 0, 0);
+        }
+        if(touched.right) {
+          sideVector.set(-1, 0, 0);
+        }
+        if(!touched.right) {
+          sideVector.set(0, 0, 0);
         }
       }else{
         frontVector.set(0, 0, backward - forward);

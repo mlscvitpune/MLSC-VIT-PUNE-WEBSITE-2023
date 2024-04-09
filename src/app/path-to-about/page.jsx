@@ -29,7 +29,7 @@ import { useMLSCStore } from "../store/MLSCStore";
 import CustomLoader from "../components/CustomLoader";
 import Sidebar from "../home/overlay-ui/Sidebar";
 import PlaySoundButton from "../components-3d/PlaySoundButton";
-import { MoveDevicePassThrough, PassThrough, WASDMotion } from "../components/UserDirections";
+import { MobileControls, MoveDevicePassThrough, PassThrough, WASDMotion } from "../components/UserDirections";
 
 export default function toTheAbout() {
   const aboutYear = useMLSCStore((s) => s.aboutYear);
@@ -52,8 +52,6 @@ export default function toTheAbout() {
 
   return (
     <div 
-      onTouchStart={() => setTouched(true)}
-      onTouchEnd={() => setTouched(false)} 
       className="h-screen w-screen overflow-hidden"
     >
       <KeyboardControls
@@ -111,6 +109,7 @@ export default function toTheAbout() {
       </KeyboardControls>
       <PlaySoundButton />
       <CustomLoader urlIndex={0} />
+      {isMobile && <MobileControls setTouched={setTouched} touched={touched} />}
       {isMobile? <MoveDevicePassThrough /> :<PassThrough />}
       <Sidebar />
     </div>

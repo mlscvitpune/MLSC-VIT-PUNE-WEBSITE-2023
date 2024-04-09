@@ -31,13 +31,22 @@ import { useMLSCStore } from "../store/MLSCStore";
 import CustomLoader from "../components/CustomLoader";
 import Sidebar from "../home/overlay-ui/Sidebar";
 import PlaySoundButton from "../components-3d/PlaySoundButton";
-import { MoveDevice, WASDMotion } from "../components/UserDirections";
+import {
+  MobileControls,
+  MoveDevice,
+  WASDMotion,
+} from "../components/UserDirections";
 
 export default function About() {
   const aboutYear = useMLSCStore((s) => s.aboutYear);
   const playBGM = useMLSCStore((s) => s.playBGM);
   const [isMobile, setIsMobile] = useState(false);
-  const [touched, setTouched] = useState(false);
+  const [touched, setTouched] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -59,7 +68,9 @@ export default function About() {
   };
 
   return (
-    <div onTouchStart={()=>setTouched(true)} onTouchEnd={()=>setTouched(false)} className="overflow-hidden h-screen w-screen">
+    <div
+      className="overflow-hidden h-screen w-screen"
+    >
       <KeyboardControls
         map={[
           { name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -88,7 +99,11 @@ export default function About() {
           <Suspense>
             {isMobile ? <DeviceOrientationControls /> : <PointerLockControls />}
             <Physics>
-              <MovingCamera position={positions[positionsInAbout]} touched={touched} isMobile={isMobile} />
+              <MovingCamera
+                position={positions[positionsInAbout]}
+                touched={touched}
+                isMobile={isMobile}
+              />
 
               {/* {aboutYear !== "" ? ( */}
 
@@ -122,7 +137,13 @@ export default function About() {
       </KeyboardControls>
       <PlaySoundButton />
       <CustomLoader urlIndex={0} />
-      {isMobile ? <MoveDevice /> :<WASDMotion />}
+      {isMobile && (
+        <MobileControls
+          touched={touched}
+          setTouched={setTouched}
+        />
+      )}
+      {isMobile ? <MoveDevice /> : <WASDMotion />}
       <Sidebar />
     </div>
   );
