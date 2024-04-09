@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { useRef } from "react";
+import Image from "next/image";
 
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
@@ -137,9 +138,9 @@ function AddTeamMember() {
           <div className="flex flex-row w-[70%] h-full items-center text-[#0078D4] text-2xl gap-3 font-light ml-32">
             <span>Hi, {userSession?.user.name}</span>
             {formData.photoURL ? (
-              <CldImage
+              <img
                 className="rounded-lg"
-                src={`mlsc-team-profile-pics/${formData.photoURL}`}
+                src={`https://res.cloudinary.com/df4li6iqc/image/upload/v1712430857/mlsc-team-profile-pics/${formData.photoURL}`}
                 width="80"
                 height="80"
               />

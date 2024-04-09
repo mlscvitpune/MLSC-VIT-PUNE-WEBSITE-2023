@@ -143,10 +143,10 @@ const ReadOnlyData = ({ member }) => {
         </div>
         <div className="flex flex-row w-full h-20 justify-around gap-3">
           <div className="flex items-center justify-center w-[30%] h-full rounded-[5px] bg-[#282828] text-sm text-ellipsis truncate">
-            ImageURL:
+            Image:
           </div>
           <div className="flex items-center justify-center w-[70%] h-full rounded-[5px] bg-[#282828] text-sm text-ellipsis truncate">
-            <CldImage src={`mlsc-team-profile-pics/${member.imageLink}`} width='80' height='80' crop='fit' />
+            <img src={`https://res.cloudinary.com/df4li6iqc/image/upload/v1712430857/mlsc-team-profile-pics/${member.imageLink}`} width='80' height='80' crop='fit' />
           </div>
         </div>
         <div className="flex flex-row w-full h-10 justify-around gap-3">
