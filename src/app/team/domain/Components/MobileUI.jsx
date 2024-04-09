@@ -7,6 +7,7 @@ function MobileUI({data, handlePrev, handleNext, handleAvatarClick}) {
       <button onClick={handleAvatarClick} className="absolute top-1 p-1 px-2 text-base rounded-md bg-slate-500">
         Zoom
       </button>
+      <img className='absolute left-1 -top-24 w-24 h-24 rounded-md object-center object-cover' src={`https://res.cloudinary.com/df4li6iqc/image/upload/v1712430857/mlsc-team-profile-pics/${data?.imageLink}`} alt="Member Image" />
       <div className="flex flex-col items-center justify-between h-[83%] w-full mt-[5px]">
         <div className="flex flex-row justify-between items-center w-[80%] h-[20%] text-lg">
           <div className="text-wrap">{data?.fullName}</div>
