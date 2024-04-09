@@ -24,6 +24,7 @@ import CustomLoader from "../../components/CustomLoader";
 import ComponentLoader from "../../components/ComponentLoader";
 import Sidebar from "../../home/overlay-ui/Sidebar";
 import PlaySoundButton from "../../components-3d/PlaySoundButton";
+import MobileUI from "./Components/MobileUI"
 
 import { Suspense, useRef, useState, useEffect } from "react";
 import { useMLSCStore } from "../../store/MLSCStore";
@@ -70,6 +71,13 @@ function Page() {
   const [index, setIndex] = useState(0);
   const [zoom, setZoom] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    }
+  }, []);
 
   const camera = useRef();
 
@@ -137,7 +145,7 @@ function Page() {
   return (
     <div className="w-screen h-screen bg-transparent overflow-hidden">
       <Canvas
-        style={{ width: "100w", height: "100vh" }}
+        style={{ width: "100%", height: isMobile? "70%":"100%" }}
         // camera={{ position: [0, 1.8, 6], target: [0, 3, 0], near: 0.05, far: 50, fov: 50 }}
         shadows="soft"
       >
@@ -187,7 +195,7 @@ function Page() {
             />
           </ScrollControls>
           
-           {!loading && progress === 100 && !sidebarOpen && 
+           {!loading && progress === 100 && !sidebarOpen && !isMobile &&
            <Position
               onClick={handleAvatarClick}
               data={memberData[index]}
@@ -195,17 +203,17 @@ function Page() {
               position={zoom ? [3.4, 2, -1] : [5.8, 1.4, -1]}
             />}
         
-          {!zoom && progress === 100 && !loading && !sidebarOpen &&  (
+          {!zoom && progress === 100 && !loading && !sidebarOpen && !isMobile && (
             <SocialIcons data={memberData[index]} />
           )}
-          {!zoom && !loading && progress === 100 && !sidebarOpen &&  (
+          {!zoom && !loading && progress === 100 && !sidebarOpen && !isMobile && (
             <NameYearDept data={memberData[index]} />
           )}
-          {progress===100 && !sidebarOpen &&  <PrevNextButtons handlePrev={handlePrev} handleNext={handleNext} />}
+          {progress===100 && !sidebarOpen && !isMobile &&  <PrevNextButtons handlePrev={handlePrev} handleNext={handleNext} />}
         </Suspense>
       </Canvas>
       <PlaySoundButton />
-      <ScrollDownRotate />
+      {isMobile ?<MobileUI data={memberData[index]} handlePrev={handlePrev} handleNext={handleNext} handleAvatarClick={handleAvatarClick} /> :<ScrollDownRotate />}
       <CustomLoader urlIndex={1} />
       <Sidebar />
     </div>
