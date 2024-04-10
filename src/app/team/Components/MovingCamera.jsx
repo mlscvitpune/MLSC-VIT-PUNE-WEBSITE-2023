@@ -53,33 +53,12 @@ function MovingCamera({
         conCurr?.translation().z
       );
       // console.log(controls);
+      console.log("TOuched", touched)
       // console.log(velocity);
       if (isMobile) {
-        if(touched.up){
-          frontVector.set(0, 0, -1);
-        }
-        if(!touched.up){
-          frontVector.set(0, 0, 0);
-        }
-        if(touched.down){
-          frontVector.set(0, 0, 1);
-        }
-        if(!touched.down){
-          frontVector.set(0, 0, 0);
-        }
-        if(touched.left){
-          sideVector.set(1, 0, 0);
-        }
-        if(!touched.left){
-          sideVector.set(0, 0, 0);
-        }
-        if(touched.right){
-          sideVector.set(-1, 0, 0);
-        }
-        if(!touched.right){
-          sideVector.set(0, 0, 0);
-        }
-
+        
+        frontVector.set(0, 0, touched.down - touched.up);
+        sideVector.set(touched.left - touched.right, 0, 0);
       } else {
         frontVector.set(0, 0, backward - forward);
         sideVector.set(left - right, 0, 0);

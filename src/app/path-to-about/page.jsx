@@ -36,7 +36,12 @@ export default function toTheAbout() {
   const setAboutYear = useMLSCStore((s) => s.setAboutYear);
   const playBGM = useMLSCStore((s) => s.playBGM);
   const [isMobile, setIsMobile] = useState(false);
-  const [touched, setTouched] = useState(false);
+  const [touched, setTouched] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);

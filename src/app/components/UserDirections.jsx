@@ -145,7 +145,7 @@ export  function MobileControls({setTouched, touched}) {
         <div className="flex flex-col items-center text-[#1f2f4a] justify-between h-36 w-36 absolute right-6 bottom-6 rounded-lg bg-[#0c15336a] text-[2.5rem]">
            <div className="w-full flex items-center justify-center h-[28%]"><FaArrowAltCircleUp onTouchStart={() => setTouched({...touched, up: true })} onTouchEnd={() => setTouched({...touched, up: false})} /></div>
            <div className="w-full h-[28%] flex flex-row items-center justify-between">
-                <FaArrowAltCircleLeft onTouchStart={() => setTouched({...touched, left: true})} onTouchEnd={() => setTouched({touched, left:false})} />
+                <FaArrowAltCircleLeft onTouchStart={() => setTouched({...touched, left: true})} onTouchEnd={() => setTouched({...touched, left:false})} />
                 <FaArrowAltCircleRight onTouchStart={() => setTouched({...touched, right:true})} onTouchEnd={() => setTouched({...touched, right:false})} />
            </div>
            <div className="w-full text-center flex items-center justify-center h-[28%]">
