@@ -22,19 +22,30 @@ import Fillers from "./Fillers";
 import * as THREE from "three";
 import { degToRad } from "three/src/math/MathUtils";
 import { Physics, RigidBody } from "@react-three/rapier";
-import { Suspense, useState, useRef } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import MovingCamera from "./MovingCamera";
 
 import { useMLSCStore } from "../store/MLSCStore";
 import CustomLoader from "../components/CustomLoader";
 import Sidebar from "../home/overlay-ui/Sidebar";
 import PlaySoundButton from "../components-3d/PlaySoundButton";
-import { PassThrough, WASDMotion } from "../components/UserDirections";
+import { MobileControls, MoveDevicePassThrough, PassThrough, WASDMotion } from "../components/UserDirections";
 
 export default function toTheAbout() {
   const aboutYear = useMLSCStore((s) => s.aboutYear);
   const setAboutYear = useMLSCStore((s) => s.setAboutYear);
   const playBGM = useMLSCStore((s) => s.playBGM);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touched, setTouched] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   console.log("YEAR ", aboutYear);
 
@@ -45,7 +56,9 @@ export default function toTheAbout() {
   });
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <div 
+      className="h-screen w-screen overflow-hidden"
+    >
       <KeyboardControls
         map={[
           { name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -64,7 +77,7 @@ export default function toTheAbout() {
           <Suspense>
             {/* <PointerLockControls /> */}
             <Physics>
-              <MovingCamera position={[0, 2, 5]} />
+              <MovingCamera position={[0, 2, 5]} isMobile={isMobile} touched={touched} />
 
               <Suspense fallback={null}>
                 {/* <ambientLight intensity={5} />
@@ -101,7 +114,8 @@ export default function toTheAbout() {
       </KeyboardControls>
       <PlaySoundButton />
       <CustomLoader urlIndex={0} />
-      <PassThrough />
+      {isMobile && <MobileControls setTouched={setTouched} touched={touched} />}
+      {isMobile? <MoveDevicePassThrough /> :<PassThrough />}
       <Sidebar />
     </div>
   );

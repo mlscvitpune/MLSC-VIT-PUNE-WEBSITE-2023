@@ -1,8 +1,11 @@
-import React, { useRef, useState } from "react";
-import { PointerLockControls, useKeyboardControls } from "@react-three/drei";
+import React, { useRef, useState, useEffect, Suspense } from "react";
+import {
+  DeviceOrientationControls,
+  PointerLockControls,
+  useKeyboardControls,
+} from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import { Suspense } from "react";
 import { degToRad, radToDeg } from "three/src/math/MathUtils";
 
 import * as THREE from "three";
@@ -19,7 +22,7 @@ const sideVector = new THREE.Vector3();
 const direction = new THREE.Vector3();
 // const rotation = new THREE.Vector3();
 
-function MovingCamera({ position, setsYear }) {
+function MovingCamera({ position, isMobile, touched }) {
   const controls = useRef();
   console.log(controls);
   const [_, get] = useKeyboardControls();
@@ -49,9 +52,13 @@ function MovingCamera({ position, setsYear }) {
       );
       // console.log(controls);
       // console.log(velocity);
-
-      frontVector.set(0, 0, backward - forward);
-      sideVector.set(left - right, 0, 0);
+      if (isMobile) {
+        frontVector.set(0, 0, touched.down - touched.up);
+        sideVector.set(touched.left - touched.right, 0, 0);
+      } else {
+        frontVector.set(0, 0, backward - forward);
+        sideVector.set(left - right, 0, 0);
+      }
 
       // console.log(frontVector);
 
@@ -84,8 +91,11 @@ function MovingCamera({ position, setsYear }) {
 
       if (conCurr?.translation().x < -13.5 && conCurr?.translation().z < -13) {
         setshowYearCard(true);
-        if(conCurr?.translation().x < -16 && conCurr?.translation().z < -16.5){
-          rounter.push('/about');
+        if (
+          conCurr?.translation().x < -16 &&
+          conCurr?.translation().z < -16.5
+        ) {
+          rounter.push("/about");
         }
       } else setshowYearCard(false);
 
@@ -116,11 +126,20 @@ function MovingCamera({ position, setsYear }) {
       {/* <Suspense>
         {teleporting && <TeleportAnim position={portalPos} />}
       </Suspense> */}
-      {!showYearCard && <PointerLockControls />}
-      
+      {!showYearCard ? (
+        isMobile ? (
+          <DeviceOrientationControls />
+        ) : (
+          <PointerLockControls />
+        )
+      ) : undefined}
+
       <YearCard show={showYearCard} />
-      <DoorPointingArrow position={[-16.2, 2, -18]} rotation={[0, degToRad(40), 0]} />
-      
+      <DoorPointingArrow
+        position={[-16.2, 2, -18]}
+        rotation={[0, degToRad(40), 0]}
+      />
+
       <RigidBody
         type="dynamic"
         ref={controls}

@@ -12,6 +12,7 @@ import {
   KeyboardControls,
   PerspectiveCamera,
   PositionalAudio,
+  DeviceOrientationControls,
 } from "@react-three/drei";
 
 import AboutScene from "./AboutScene";
@@ -23,19 +24,33 @@ import Fillers from "../path-to-about/Fillers";
 import * as THREE from "three";
 import { degToRad } from "three/src/math/MathUtils";
 import { Physics, RigidBody } from "@react-three/rapier";
-import { Suspense, useState, useRef } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import MovingCamera from "./MovingCamera";
 
 import { useMLSCStore } from "../store/MLSCStore";
 import CustomLoader from "../components/CustomLoader";
 import Sidebar from "../home/overlay-ui/Sidebar";
 import PlaySoundButton from "../components-3d/PlaySoundButton";
-import { WASDMotion } from "../components/UserDirections";
+import {
+  MobileControls,
+  MoveDevice,
+  WASDMotion,
+} from "../components/UserDirections";
 
 export default function About() {
   const aboutYear = useMLSCStore((s) => s.aboutYear);
-  const setAboutYear = useMLSCStore((s) => s.setAboutYear);
   const playBGM = useMLSCStore((s) => s.playBGM);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touched, setTouched] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const positionsInAbout = useMLSCStore((s) => s.positionsInAbout);
   console.log("YEAR ", aboutYear);
@@ -47,13 +62,15 @@ export default function About() {
   });
 
   const positions = {
-    projects: [-10, 2, -0.108],
-    blogs: [10, 2, -0.108],
-    gen: [0, 2, 18],
+    projects: [-10, 3, -0.108],
+    blogs: [10, 3, -0.108],
+    gen: [0, 3, 18],
   };
 
   return (
-    <div className="overflow-hidden h-screen w-screen">
+    <div
+      className="overflow-hidden h-screen w-screen"
+    >
       <KeyboardControls
         map={[
           { name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -80,9 +97,13 @@ export default function About() {
           {/* <Environment preset="night" background /> */}
           {/* <AboutScene /> */}
           <Suspense>
-            <PointerLockControls />
+            {isMobile ? <DeviceOrientationControls /> : <PointerLockControls />}
             <Physics>
-              <MovingCamera position={positions[positionsInAbout]} />
+              <MovingCamera
+                position={positions[positionsInAbout]}
+                touched={touched}
+                isMobile={isMobile}
+              />
 
               {/* {aboutYear !== "" ? ( */}
 
@@ -116,7 +137,13 @@ export default function About() {
       </KeyboardControls>
       <PlaySoundButton />
       <CustomLoader urlIndex={0} />
-      <WASDMotion />
+      {isMobile && (
+        <MobileControls
+          touched={touched}
+          setTouched={setTouched}
+        />
+      )}
+      {isMobile ? <MoveDevice /> : <WASDMotion />}
       <Sidebar />
     </div>
   );
