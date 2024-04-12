@@ -38,7 +38,7 @@ export default function MemberData({ member, className, setClickCount, clickCoun
     >
       <span className="flex flex-row gap-6 justify-center pt-4 pb-2 text-[#bfbdbd]">
         <div onClick={()=>setClickCount(!clickCount)} className="relative hover:bg-[#424242] p-1 text-sm rounded-[3px] w-auto h-auto">{member.fullName}</div>
-        {(member.email === uSession.user?.email || member.email === process.env.ADMIN_EMAIL_1) &&   
+        {(member.email === uSession.user?.email || uSession.user?.email === process.env.ADMIN_EMAIL_1) &&   
         <div className="w-auto flex flex-row h-full gap-2">
           <div
             onClick={() => setUpdate(!update)}
