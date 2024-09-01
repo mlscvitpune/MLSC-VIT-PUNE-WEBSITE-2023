@@ -15,7 +15,9 @@ import { authOptions } from "../../../helpers/authOptions";
 export async function GET(request: NextRequest, response: NextResponse) {
   const searchParams = request.nextUrl.searchParams;
   const domainName = searchParams.get("domain");
-  console.log(domainName);
+  const year = searchParams.get("year");
+  // console.log(domainName);
+  console.log("Year: " + year);
   
   if(domainName != null){
 
@@ -29,6 +31,15 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
       if (domainName != null) {
         const filteredTeams = (cached as Array<any>).filter((team: { domain: string }) => team.domain === domainName);
+
+        return NextResponse.json({
+          cached: filteredTeams,
+          status: 200
+        });
+      }
+
+      if(year != null){
+        const filteredTeams = (cached as Array<any>).filter((team: { year: string }) => team.year === year);
 
         return NextResponse.json({
           cached: filteredTeams,
@@ -57,6 +68,18 @@ export async function GET(request: NextRequest, response: NextResponse) {
           status: 200
         }
         );
+      }
+
+      if(year != null){
+        const data = await prisma.user.findMany({
+          where: {
+            year: year
+          }
+        });
+        return NextResponse.json({
+          data,
+          status: 200
+        });
       }
 
 

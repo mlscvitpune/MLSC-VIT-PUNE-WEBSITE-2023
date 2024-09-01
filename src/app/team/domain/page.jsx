@@ -99,10 +99,6 @@ function Page() {
     setZoom(!zoom);
   };
 
-  console.log(
-    `/api/team?domain=${domainMap[domain].name.split(" ").join("%20")}`
-  );
-
   const getTeamData = async () => {
     try {
       console.log("first");
