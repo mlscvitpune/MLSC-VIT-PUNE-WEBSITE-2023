@@ -58,7 +58,7 @@ function CoreTeamDomain({ memberData }) {
   }
 
   return (
-    <div className="relative flex flex-col items-center text-[#0092cd] justify-start ">
+    <div className="relative flex flex-col items-center text-[#39b7e9] justify-start ">
       <h1 className="flex items-center justify-center text-xl py-2 h-auto w-full font-bold">
         Core Team
       </h1>
@@ -66,24 +66,43 @@ function CoreTeamDomain({ memberData }) {
         <div className="flex lg:flex-row flex-col gap-8">
           <div className="flex items-center bg-[url('/images/svgs/event-bg.svg')] bg-cover bg-center justify-center lg:w-[25rem] lg:h-[18rem] w-[20rem] h-[14rem] rounded-md">
             <div className="h-full w-[40%] bg-slate-500 flex items-center justify-center p-1"></div>
-            <div className="h-full w-[60%] bg-slate-700 flex flex-col p-2 items-start justify-center gap-5">
+            <div className="h-full w-[60%] flex flex-col p-2 items-start justify-center gap-5">
               <h2 className="text-wrap">
-                <b>Name:</b> {President && President[0]?.fullName}
+                <b>Name: </b>  {President && President[0]?.fullName}
               </h2>
               <h2 className="text-wrap">
-                <b>Position:</b>
-                {President && President[0]?.position}
+                <b>Position:</b> {President && President[0]?.position}
               </h2>
               <div className="flex flex-row w-full items-center justify-between px-8">
-                <span>X</span>
-                <span>X</span>
-                <span>X</span>
+                {President && President[0].githubLink !== undefined && (
+                  <span>
+                    <Link href={President[0].githubLink}>
+                      <img src="/images/svgs/github.svg" alt="" />
+                    </Link>{" "}
+                  </span>
+                )}
+
+                {President && President[0].linkedinLink !== undefined && (
+                  <span>
+                    <Link href={President[0].linkedinLink}>
+                      <img src="/images/svgs/linkedin.svg" alt="" />
+                    </Link>
+                  </span>
+                )}
+
+                {President && President[0].xLink !== undefined && (
+                  <span>
+                    <Link href={President[0].xLink}>
+                      <img src="/images/svgs/x.svg" alt="" />
+                    </Link>{" "}
+                  </span>
+                )}
               </div>
             </div>
           </div>
           <div className="flex items-center bg-[url('/images/svgs/event-bg.svg')] bg-cover bg-center justify-center lg:w-[25rem] lg:h-[18rem] w-[20rem] h-[14rem] rounded-md">
             <div className="h-full w-[40%] bg-slate-500 flex items-center justify-center p-1"></div>
-            <div className="h-full w-[60%] bg-slate-700 flex flex-col p-2 items-start justify-center gap-5">
+            <div className="h-full w-[60%] flex flex-col p-2 items-start justify-center gap-5">
               <h2 className="text-wrap">
                 <b>Name:</b> {VicePresident && VicePresident[0]?.fullName}
               </h2>
@@ -91,14 +110,34 @@ function CoreTeamDomain({ memberData }) {
                 <b>Position:</b> {VicePresident && VicePresident[0]?.position}
               </h2>
               <div className="flex flex-row w-full items-center justify-between px-8">
-                <span>X</span>
-                <span>X</span>
-                <span>X</span>
+                {VicePresident && VicePresident[0].githubLink !== undefined && (
+                  <span>
+                    <Link href={VicePresident[0].githubLink}>
+                      <img src="/images/svgs/github.svg" alt="" />
+                    </Link>{" "}
+                  </span>
+                )}
+
+                {VicePresident && VicePresident[0].linkedinLink !== undefined && (
+                  <span>
+                    <Link href={VicePresident[0].linkedinLink}>
+                      <img src="/images/svgs/linkedin.svg" alt="" />
+                    </Link>
+                  </span>
+                )}
+
+                {VicePresident && VicePresident[0].xLink !== undefined && (
+                  <span>
+                    <Link href={VicePresident[0].xLink}>
+                      <img src="/images/svgs/x.svg" alt="" />
+                    </Link>{" "}
+                  </span>
+                )}
               </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap-reverse items-center justify-center w-full h-auto gap-10 text-[#0092cd]">
+        <div className="flex flex-wrap-reverse items-center justify-center w-full h-auto gap-10 text-[#39b7e9]">
           {groupedByDomain &&
             groupedByDomain["Core"]?.map((item, i) => {
               if (
@@ -113,7 +152,7 @@ function CoreTeamDomain({ memberData }) {
                     className="flex items-center bg-[url('/images/svgs/event-bg.svg')] bg-cover bg-center justify-center lg:w-[25rem] lg:h-[18rem] w-[20rem] h-[14rem] rounded-md"
                   >
                     <div className="h-full w-[40%] bg-slate-500 flex items-center justify-center p-1"></div>
-                    <div className="h-full w-[60%] bg-slate-700 flex flex-col p-2 items-start justify-center gap-5">
+                    <div className="h-full w-[60%] flex flex-col p-2 items-start justify-center gap-5">
                       <h2 className="text-wrap">
                         <b>Name:</b> {item.fullName}
                       </h2>
@@ -121,23 +160,23 @@ function CoreTeamDomain({ memberData }) {
                         <b>Position:</b> {item.position}
                       </h2>
                       <div className="flex flex-row w-full items-center justify-between px-8">
-                        {item.githubLink && (
+                        {item.githubLink !== undefined && (
                           <span>
                             <Link href={item.githubLink}>
                               <img src="/images/svgs/github.svg" alt="" />
                             </Link>
                           </span>
                         )}
-                        {item.linkedinLink && (
+                        {item.linkedinLink !== undefined && (
                           <span>
                             <Link href={item.linkedinLink}>
                               <img src="/images/svgs/linkedin.svg" alt="" />
                             </Link>
                           </span>
                         )}
-                        {item.xLink && (
+                        {item.xLink !== undefined && (
                           <span>
-                            <Link href={item.xLlink}>
+                            <Link href={item.xLink}>
                               <img src="/images/svgs/x.svg" alt="" />
                             </Link>
                           </span>
@@ -154,6 +193,8 @@ function CoreTeamDomain({ memberData }) {
 }
 
 function PrevTeamDomain({ memberData }) {
+
+  const [domainLead, setDomainLead] = useState();
   const groupedByDomain = memberData.reduce((acc, obj) => {
     const domain = obj.domain;
     if (!acc[domain]) {
@@ -164,7 +205,7 @@ function PrevTeamDomain({ memberData }) {
   }, {});
 
   return (
-    <div className="relative flex flex-col items-center text-[#0092cd] justify-start">
+    <div className="relative flex flex-col items-center text-[#39b7e9] justify-start">
       {Object.keys(groupedByDomain).map((domain, j) => {
         if (domain === "Past year" || domain === "Core") return null;
         else
@@ -173,65 +214,96 @@ function PrevTeamDomain({ memberData }) {
               <h1 className="flex items-center justify-center text-xl py-2 h-auto w-full font-bold">
                 {domain}
               </h1>
-              <div className="flex flex-wrap items-center justify-center w-full h-auto gap-10">
+              
+             <div className="flex flex-wrap items-center justify-center w-full h-auto gap-10">
+              {groupedByDomain[domain] && groupedByDomain[domain].filter((item) => item.position === "Domain Lead")[0] &&
                 <div className="flex items-center bg-[url('/images/svgs/event-bg.svg')] bg-cover bg-center justify-center lg:w-[25rem] lg:h-[18rem] w-[20rem] h-[14rem] rounded-md">
                   <div className="h-full w-[40%] bg-slate-500 flex items-center justify-center p-1"></div>
-                  <div className="h-full w-[60%] bg-slate-700 flex flex-col p-2 items-start justify-center gap-5">
+                  <div className="h-full w-[60%] flex flex-col p-2 items-start justify-center gap-5">
                     <h2 className="text-wrap">
-                      <b>Name:</b> Soham Panchal
+                      <b>Name:</b>{" "}
+                      {groupedByDomain[domain].filter((item) => item.position === "Domain Lead")[0]?.fullName}
                     </h2>
                     <h2 className="text-wrap">
                       <b>Position:</b> Domain Lead
                     </h2>
                     <div className="flex flex-row w-full items-center justify-between px-8">
-                      <span>X</span>
-                      <span>X</span>
-                      <span>X</span>
+                      {groupedByDomain[domain].filter((a) => a.position=== "Domain Lead")[0]?.githubLink !== undefined && (
+                        <span>
+                          <Link href={groupedByDomain[domain].filter((a) => a.position=== "Domain Lead")[0]?.githubLink}>
+                            <img src="/images/svgs/github.svg" alt="" />
+                          </Link>{" "}
+                        </span>
+                      )}
+
+                      {groupedByDomain[domain].filter((a) => a.position=== "Domain Lead")[0]?.linkedinLink !== undefined && (
+                        <span>
+                          <Link href={groupedByDomain[domain].filter((a) => a.position=== "Domain Lead")[0]?.linkedinLink}>
+                            <img src="/images/svgs/linkedin.svg" alt="" />
+                          </Link>
+                        </span>
+                      )}
+
+                      {groupedByDomain[domain].filter((a) => a.position=== "Domain Lead")[0]?.xLink !== undefined && (
+                        <span>
+                          <Link href={groupedByDomain[domain].filter((a) => a.position=== "Domain Lead")[0].xLink}>
+                            <img src="/images/svgs/x.svg" alt="" />
+                          </Link>{" "}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap-reverse items-center justify-center w-full h-auto gap-10 text-[#0092cd]">
-                  {groupedByDomain[domain].map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center bg-[url('/images/svgs/event-bg.svg')] bg-cover bg-center justify-center lg:w-[25rem] lg:h-[18rem] w-[20rem] h-[14rem] rounded-md"
-                    >
-                      <div className="h-full w-[40%] bg-slate-500 flex items-center justify-center p-1"></div>
-                      <div className="h-full w-[60%] bg-slate-700 flex flex-col p-2 items-start justify-center gap-5">
-                        <h2 className="text-wrap">
-                          <b>Name:</b> {item.fullName}
-                        </h2>
-                        <h2 className="text-wrap">
-                          <b>Position:</b> {item.position}
-                        </h2>
-                        <div className="flex flex-row w-full items-center justify-between px-8">
-                          {item.github && (
-                            <span>
-                              <Link href={item.githubLink}>
-                                <img src="/images/svgs/github.svg" alt="" />
-                              </Link>{" "}
-                            </span>
-                          )}
+          }
+                 <div className="flex flex-wrap-reverse items-center justify-center w-full h-auto gap-10 text-[#39b7e9]">
+                  {groupedByDomain[domain].map((item, i) => {
+                    if (item.position === "Domain Lead") return null;
+                    else
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center bg-[url('/images/svgs/event-bg.svg')] bg-cover bg-center justify-center lg:w-[25rem] lg:h-[18rem] w-[20rem] h-[14rem] rounded-md"
+                        >
+                          <div className="h-full w-[40%] bg-slate-500 flex items-center justify-center p-1"></div>
+                          <div className="h-full w-[60%] flex flex-col p-2 items-start justify-center gap-5">
+                            <h2 className="text-wrap">
+                              <b>Name:</b> {item.fullName}
+                            </h2>
+                            <h2 className="text-wrap">
+                              <b>Position:</b> {item.position}
+                            </h2>
+                            <div className="flex flex-row w-full items-center justify-between px-8">
+                              {item.githubLink !== undefined && (
+                                <span>
+                                  <Link href={item.githubLink}>
+                                    <img src="/images/svgs/github.svg" alt="" />
+                                  </Link>{" "}
+                                </span>
+                              )}
 
-                          {item.linkedinLink && (
-                            <span>
-                              <Link href={item.linkedinLink}>
-                                <img src="/images/svgs/linkedin.svg" alt="" />
-                              </Link>
-                            </span>
-                          )}
+                              {item.linkedinLink !== undefined && (
+                                <span>
+                                  <Link href={item.linkedinLink}>
+                                    <img
+                                      src="/images/svgs/linkedin.svg"
+                                      alt=""
+                                    />
+                                  </Link>
+                                </span>
+                              )}
 
-                          {item.xLlink && (
-                            <span>
-                              <Link href={item.xLlink}>
-                                <img src="/images/svgs/x.svg" alt="" />
-                              </Link>{" "}
-                            </span>
-                          )}
+                              {item.xLink !== undefined && (
+                                <span>
+                                  <Link href={item.xLink}>
+                                    <img src="/images/svgs/x.svg" alt="" />
+                                  </Link>{" "}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
+                      );
+                  })}
                 </div>
               </div>
             </div>
