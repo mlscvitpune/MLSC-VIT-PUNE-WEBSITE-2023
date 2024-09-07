@@ -9,7 +9,7 @@ function PlaySoundButton({}) {
   const playBGM = useMLSCStore((state) => state.playBGM);
   const setPlayBGM = useMLSCStore((state) => state.setPlayBGM);
   return(
-    <button onClick={() => setPlayBGM(!playBGM)} className="absolute flex items-center justify-center top-8 right-12 w-16 h-16 cursor-pointer ">
+    <button onClick={() => setPlayBGM(!playBGM)} className="absolute flex items-center justify-center top-8 lg:right-12 right-8 w-16 h-16 cursor-pointer z-50">
       {playBGM ? <div className="w-full h-full rounded-full opacity-85 bg-cover bg-center bg-[url('/icons/sound-button-on.jpeg')]"  />: <div className="w-full h-full rounded-full opacity-85 bg-cover bg-center bg-[url('/icons/sound-button-off.jpeg')]"  />}
     </button>
   )
