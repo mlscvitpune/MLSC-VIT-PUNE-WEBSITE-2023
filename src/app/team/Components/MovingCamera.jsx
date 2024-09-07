@@ -53,7 +53,7 @@ function MovingCamera({
         conCurr?.translation().z
       );
       // console.log(controls);
-      console.log("TOuched", touched)
+      // console.log("TOuched", touched)
       // console.log(velocity);
       if (isMobile) {
         

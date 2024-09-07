@@ -36,6 +36,8 @@ import MovingCamera from "./Components/MovingCamera.jsx";
 import CustomLoader from "../components/CustomLoader.jsx";
 import Sidebar from "../home/overlay-ui/Sidebar.jsx";
 import PlaySoundButton from "../components-3d/PlaySoundButton.jsx";
+import ChooseYearBtn from "./Components/ChooseYearBtn.jsx";
+import PrevTeamModal from "./Components/PrevTeamModal.jsx";
 import { MoveDevice, WASDMotion, MobileControls } from "../components/UserDirections.jsx";
 
 
@@ -58,6 +60,12 @@ function page() {
 
   const [teleporting, setTeleporting] = useState(false);
   const [inPortal, setInPortal] = useState(false);
+
+  const [year, setYear] = useState("2023-24");
+
+  useEffect(() => {
+    console.log("Year changed to: ", year);
+  } , [year]);
 
   const backgroundColors = useRef({
     // colorB: "#61b0ed",
@@ -144,6 +152,8 @@ function page() {
         </Canvas>
       </KeyboardControls>
       <CustomLoader urlIndex={0} />
+      <ChooseYearBtn year={year} setYear={setYear} />
+      {year.split('-')[1] <=23 && <PrevTeamModal year={year} />}
       <PlaySoundButton />
       {isMobile && <MobileControls setTouched={setTouched} touched={touched} />}
       {isMobile ? <MoveDevice  /> : <WASDMotion />}

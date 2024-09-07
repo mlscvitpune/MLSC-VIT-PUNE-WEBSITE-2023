@@ -18,7 +18,7 @@ const direction = new THREE.Vector3();
 
 function MovingCamera({ position, isMobile, touched}) {
   const controls = useRef();
-  console.log(controls);
+  // console.log(controls);
   const [_, get] = useKeyboardControls();
 
   // const teleporting = useMLSCStore((s) => s.teleporting);
