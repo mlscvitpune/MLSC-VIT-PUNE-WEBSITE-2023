@@ -4,6 +4,10 @@ Maintainer: Soham Panchal
 
 Welcome to the Microsoft Learn Student Club at Vishwakarma Institute of Technology (VIT) in Pune website revamp project. This website is designed with a focus on efficient resource usage, utilizing CPU design for navigation and featuring 3D models to showcase our team members' images and credentials. 
 
+# Video
+
+[![MLSC VIT Pune Website Demo](https://img.youtube.com/vi/lsKAZuPXI-k/0.jpg)](https://www.youtube.com/watch?v=lsKAZuPXI-k)
+
 # Features
 
 - CPU Design Navigation: We have implemented a unique CPU design for website navigation to provide an engaging and interactive experience to our users. 
